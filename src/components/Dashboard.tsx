@@ -11,6 +11,7 @@ interface Stats {
   rejeitadas: number;
   taxaAprovacao: number;
 }
+
 interface DashboardProps {
   candidaturas: Candidatura[];
   stats: Stats;
@@ -24,7 +25,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ candidaturas, stats, loadi
     .sort((a, b) => new Date(b.data_submissao).getTime() - new Date(a.data_submissao).getTime())
     .slice(0, 5);
 
-  const stats = [
+  const statsCards = [
     {
       title: 'Total de Candidaturas',
       value: totalCandidaturas,
@@ -85,6 +86,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ candidaturas, stats, loadi
       </div>
     );
   }
+
   const getStatusBadge = (status: string) => {
     const styles = {
       pendente: 'bg-amber-100 text-amber-800 border-amber-200',
@@ -126,8 +128,11 @@ export const Dashboard: React.FC<DashboardProps> = ({ candidaturas, stats, loadi
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {stats.map((stat, index) => (
-          <div key={index} className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transform hover:scale-105 transition-all duration-300">
+        {statsCards.map((stat, index) => (
+          <div
+            key={index}
+            className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden transform hover:scale-105 transition-all duration-300"
+          >
             <div className={`h-1 bg-gradient-to-r ${stat.color}`}></div>
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
@@ -154,7 +159,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ candidaturas, stats, loadi
             <span className="text-sm text-gray-500">{recentCandidaturas.length} candidaturas</span>
           </div>
         </div>
-        
+
         <div className="divide-y divide-gray-100">
           {recentCandidaturas.map((candidatura) => (
             <div key={candidatura.id} className="p-6 hover:bg-gray-50 transition-colors duration-200">
@@ -169,9 +174,7 @@ export const Dashboard: React.FC<DashboardProps> = ({ candidaturas, stats, loadi
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="text-sm font-medium text-gray-900 truncate">
-                        {candidatura.nome}
-                      </h4>
+                      <h4 className="text-sm font-medium text-gray-900 truncate">{candidatura.nome}</h4>
                       <p className="text-sm text-gray-500">
                         {candidatura.idade} anos • {getProvinciaName(candidatura.provincia)}
                       </p>
